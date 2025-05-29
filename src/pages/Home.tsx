@@ -221,11 +221,12 @@ function Home() {
                     <span>{goal.name}</span>
                     <div className="d-flex gap-2">
                       <Button
-                        variant={checked ? "success" : "outline-secondary"}
+                        variant={checked ? "success" : "outline-dark"}
                         size="sm"
                         onClick={() => toggleGoalTracking(goal.id)}
                       >
-                        {checked ? "✓ Tracked" : "Track"}
+                        {checked && <i className="bi bi-check-lg"></i>}
+                        {checked ? "Tracked" : "Track"}
                       </Button>
                       <Button
                         variant="outline-danger"
@@ -311,10 +312,11 @@ function Home() {
                     <span>{habit.name}</span>
                     <div className="d-flex gap-2">
                       <Button
-                        variant={checked ? "success" : "outline-secondary"}
+                        variant={checked ? "success" : "outline-dark"}
                         size="sm"
                       >
-                        {checked ? "✓ Tracked" : "Track"}
+                        {checked && <i className="bi bi-check-lg"></i>}
+                        {checked ? "Tracked" : "Track"}
                       </Button>
                       <Button
                         variant="outline-danger"

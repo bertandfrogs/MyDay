@@ -76,32 +76,34 @@ function Schedule() {
   };
 
   return (
-    <Container className="mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
+    <Container className="schedule mt-4">
+      <Container className="heading d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex gap-2">
           {viewMode === "week" && (
             <>
               <Button
-                variant="outline-dark"
+                variant="dark"
                 onClick={() => setWeekOffset((prev) => prev - 1)}
               >
-                ← Previous
+                <i className="bi bi-arrow-left pe-1"></i>
+                Previous
               </Button>
               <Button
-                variant="outline-dark"
+                variant="dark"
                 onClick={() => setWeekOffset((prev) => prev + 1)}
               >
-                Next →
+                Next
+                <i className="bi bi-arrow-right ps-1"></i>
               </Button>
             </>
           )}
-          <Button variant="primary" onClick={openCreateModal}>
+          <Button variant="dark" onClick={openCreateModal}>
             Add Appointment
           </Button>
         </div>
 
         <Dropdown>
-          <Dropdown.Toggle variant="outline-secondary" id="view-toggle">
+          <Dropdown.Toggle variant="dark" id="view-toggle">
             View: {viewMode.charAt(0).toUpperCase() + viewMode.slice(1)}
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -109,7 +111,7 @@ function Schedule() {
             <Dropdown.Item onClick={() => setViewMode("month")}>Month View</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-      </div>
+      </Container>
 
       {/* Render week or month */}
       {viewMode === "week" ? (

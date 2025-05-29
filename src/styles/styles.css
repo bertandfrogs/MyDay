@@ -11980,6 +11980,10 @@ h1, .h1 {
   font-family: "Edu NSW ACT Foundation";
 }
 
+.btn.btn-outline-secondary {
+  color: #896405;
+}
+
 .event-detail-popup {
   position: absolute;
   background-color: #fff;
@@ -12238,6 +12242,9 @@ h1, .h1 {
 }
 
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background-color: #31393C;
 }
 .navbar-brand {
@@ -12249,14 +12256,14 @@ h1, .h1 {
 .navbar .nav-link {
   color: white;
 }
-.navbar .nav-link.brand.active {
-  text-decoration: none;
-}
 .navbar .nav-link.active {
   color: white;
   font-weight: 500;
   -webkit-text-decoration: 2px #EBE4A4 underline;
           text-decoration: 2px #EBE4A4 underline;
+}
+.navbar .nav-link.brand.active {
+  text-decoration: none;
 }
 .navbar .navbar-toggler {
   color: #EBE4A4;
@@ -12265,22 +12272,28 @@ h1, .h1 {
   filter: invert(1);
 }
 
-.horizontal-week {
+.schedule .heading {
+  background-color: #afdef9;
+  padding: 10px;
+  border-radius: 5px;
+  position: sticky;
+  top: 30px;
+  z-index: 5;
+}
+.schedule .horizontal-week {
   display: flex;
   overflow-x: auto;
   gap: 1rem;
   padding-bottom: 1rem;
   scroll-snap-type: x mandatory;
 }
-
-.day-tab {
+.schedule .day-tab {
   cursor: pointer;
   flex: 0 0 auto;
   transition: transform 0.3s ease, flex-basis 0.3s ease;
   scroll-snap-align: start;
 }
-
-.bookmark-tab {
+.schedule .bookmark-tab {
   background-color: #f8f9fa;
   border-radius: 10px;
   padding: 1rem;
@@ -12289,8 +12302,7 @@ h1, .h1 {
   min-width: 80px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
-.day-card {
+.schedule .day-card {
   min-width: 250px;
   width: 300px;
   max-height: 400px;
@@ -12393,4 +12405,20 @@ h1, .h1 {
   color: white;
   font-size: 0.75rem;
   z-index: 2;
+}
+
+i.bi.bi-fire {
+  color: #f45f09;
+}
+
+i.bi.bi-exclamation-triangle-fill {
+  color: #faf256;
+}
+
+.habits button.btn.btn-outline-dark {
+  background: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+.habits button.btn.btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.25);
 }

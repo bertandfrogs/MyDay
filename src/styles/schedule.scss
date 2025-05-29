@@ -1,33 +1,46 @@
-.horizontal-week {
-	display: flex;
-	overflow-x: auto;
-	gap: 1rem;
-	padding-bottom: 1rem;
-	scroll-snap-type: x mandatory;
+.schedule {
+  .heading {
+    background-color: $accent-light-blue;
+    padding: 10px;
+    border-radius: 5px;
+    position: sticky;
+    top: 55px;
+    z-index: 5;
+  }
+
+  .horizontal-week {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .day-tab {
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: transform 0.3s ease, flex-basis 0.3s ease;
+    scroll-snap-align: start;
+  }
+  
+  .bookmark-tab {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 500;
+    min-width: 80px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .day-card {
+    min-width: 250px;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+  }
 }
 
-.day-tab {
-	cursor: pointer;
-	flex: 0 0 auto;
-	transition: transform 0.3s ease, flex-basis 0.3s ease;
-	scroll-snap-align: start;
-}
 
-.bookmark-tab {
-	background-color: #f8f9fa;
-	border-radius: 10px;
-	padding: 1rem;
-	text-align: center;
-	font-weight: 500;
-	min-width: 80px;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.day-card {
-	min-width: 250px;
-	width: 300px;
-	max-height: 400px;
-	overflow-y: auto;
-	border-radius: 20px;
-	margin-top: 0.5rem;
-}

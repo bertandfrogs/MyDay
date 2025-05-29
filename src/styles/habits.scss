@@ -1,0 +1,15 @@
+i.bi.bi-fire {
+  color: #f45f09;
+}
+
+i.bi.bi-exclamation-triangle-fill {
+  color: #faf256;
+}
+
+.habits button.btn.btn-outline-dark {
+  background: rgba(255,255,255,0.5);
+  color: black;
+  &:hover {
+    background: rgba(255,255,255,0.25);
+  }
+}

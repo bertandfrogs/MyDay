@@ -121,7 +121,7 @@ function Todo() {
           {task.completed ? (
             <i className="bi bi-arrow-counterclockwise"></i>
           ) : (
-            <i className="bi bi-check"></i>
+            <i className="bi bi-check-lg"></i>
           )}
         </Button>
         <Button

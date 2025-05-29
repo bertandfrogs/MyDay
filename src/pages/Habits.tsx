@@ -43,7 +43,9 @@ function getCurrentStreak(log: { [date: string]: boolean }): number {
   return streak;
 }
 
-function getHistory(log: { [date: string]: boolean }): { date: string; checked: boolean }[] {
+function getHistory(log: {
+  [date: string]: boolean;
+}): { date: string; checked: boolean }[] {
   const history = [];
   const today = new Date();
   for (let i = 6; i >= 0; i--) {
@@ -71,7 +73,12 @@ function Habits() {
     if (!newHabit.trim()) return;
     setHabits([
       ...habits,
-      { id: Date.now(), name: newHabit, log: { [todayStr]: false }, type: newHabitType },
+      {
+        id: Date.now(),
+        name: newHabit,
+        log: { [todayStr]: false },
+        type: newHabitType,
+      },
     ]);
     setNewHabit("");
     setNewHabitType("good");
@@ -106,7 +113,12 @@ function Habits() {
       <div>
         <strong>{habit.name}</strong>
         <span className="ms-2">
-          {habit.type === "good" ? "🔥" : "⚠️"} {getCurrentStreak(habit.log)}
+          {habit.type === "good" ? (
+            <i className="bi bi-fire"></i>
+          ) : (
+            <i className="bi bi-exclamation-triangle-fill"></i>
+          )}{" "}
+          {getCurrentStreak(habit.log)}
         </span>
       </div>
       <div className="d-flex gap-2">
@@ -116,17 +128,15 @@ function Habits() {
               ? habit.type === "good"
                 ? "success"
                 : "danger"
-              : "outline-secondary"
+              : "outline-dark"
           }
           size="sm"
           onClick={() => toggleToday(habit.id)}
         >
-          {habit.log[todayStr] ? "✓" : "Mark"}
+          {habit.log[todayStr] ? <i className="bi bi-check-lg"></i> : "Mark"}
         </Button>
         <Button
-          style={{ backgroundColor: "transparent", color: "black" }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ffe066")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+          variant="outline-dark"
           size="sm"
           onClick={() => {
             setEditingHabit(habit);
@@ -135,17 +145,15 @@ function Habits() {
           }}
           title="Edit"
         >
-          ✏️
+          <i className="bi bi-pencil-fill"></i>
         </Button>
         <Button
-          style={{ backgroundColor: "transparent", color: "black" }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ffe066")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+          variant="outline-dark"
           size="sm"
           onClick={() => setHabits(habits.filter((h) => h.id !== habit.id))}
           title="Delete"
         >
-          🗑️
+          <i className="bi bi-trash"></i>
         </Button>
       </div>
     </ListGroup.Item>
@@ -194,7 +202,7 @@ function Habits() {
   };
 
   return (
-    <Container className="mt-4">
+    <Container className="habits mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>Habit Tracker</h1>
         <Button
@@ -273,7 +281,11 @@ function Habits() {
             value={newHabitType}
             onChange={(val: "good" | "bad") => setNewHabitType(val)}
           >
-            <ToggleButton id="good-habit" value="good" variant="outline-success">
+            <ToggleButton
+              id="good-habit"
+              value="good"
+              variant="outline-success"
+            >
               Good
             </ToggleButton>
             <ToggleButton id="bad-habit" value="bad" variant="outline-danger">
@@ -292,7 +304,11 @@ function Habits() {
       </Modal>
 
       {/* Edit Habit Modal */}
-      <Modal show={!!editingHabit} onHide={() => setEditingHabit(null)} centered>
+      <Modal
+        show={!!editingHabit}
+        onHide={() => setEditingHabit(null)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Edit Habit</Modal.Title>
         </Modal.Header>
