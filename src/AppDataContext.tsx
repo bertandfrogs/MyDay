@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import FirebaseManager from "./FirebaseManager";
 
 export interface Appointment {
   id: number;
@@ -39,6 +40,7 @@ interface AppDataContextType {
   setGoals: React.Dispatch<React.SetStateAction<Goal[]>>;
   habits: Habit[];
   setHabits: React.Dispatch<React.SetStateAction<Habit[]>>;
+  firebaseManager: FirebaseManager;
 }
 
 const AppDataContext = createContext<AppDataContextType | undefined>(undefined);
@@ -56,10 +58,11 @@ export function AppDataProvider(props: appDataProviderProps) {
   const [tasks, setTasks] = useState<Task[]>(props.tasks ? props.tasks : []);
   const [goals, setGoals] = useState<Goal[]>(props.goals ? props.goals : []);
   const [habits, setHabits] = useState<Habit[]>(props.habits ? props.habits : []);
+  const firebaseManager = new FirebaseManager();
 
   return (
     <AppDataContext.Provider
-      value={{ appointments, setAppointments, tasks, setTasks, goals, setGoals, habits, setHabits }}
+      value={{ appointments, setAppointments, tasks, setTasks, goals, setGoals, habits, setHabits, firebaseManager }}
     >
       {props.children}
     </AppDataContext.Provider>

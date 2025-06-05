@@ -2,31 +2,52 @@
   position: sticky;
   top: 0;
   z-index: 10;
-	background-color: $dark-gray;
+  background-color: $dark-gray;
 
-	&-brand {
-		color: white;
-		&:hover {
-			color: $accent-yellow;
-		}
-	}
+  &-brand {
+    color: white;
+    &:hover {
+      color: $accent-yellow;
+    }
+  }
 
-	.nav-link {
-		color: white;
+  .nav-link {
+    color: white;
     &.active {
       color: white;
-		  font-weight: 500;
-		  text-decoration: 2px $accent-yellow underline;
+      font-weight: 500;
+      text-decoration: 2px $accent-yellow underline;
     }
     &.brand.active {
       text-decoration: none;
     }
-	}
+  }
 
-	.navbar-toggler {
-		color: $accent-yellow;
-		&-icon {
-			filter: invert(1);
-		}
-	}
+  .navbar-toggler {
+    color: $accent-yellow;
+    &-icon {
+      filter: invert(1);
+    }
+  }
+
+  .account {
+    display: flex;
+    align-items: center;
+    
+    .user {
+      display: flex;
+      align-items: center;
+      padding-right: 10px;
+
+      &-img {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      &-name {
+        color: white;
+      }
+    }
+  }
 }

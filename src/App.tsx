@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import Schedule from "./pages/Schedule";
-import Login from "./pages/Login";
 import Habits from "./pages/Habits";
 import Todo from "./pages/Todo";
 
@@ -16,7 +15,6 @@ function App() {
 			<Route path="/schedule" element={<Schedule/>} />
 			<Route path="/habits" element={<Habits/>} />
 			<Route path="/todo" element={<Todo/>} />
-			<Route path="/login" element={<Login/>} />
 		</Routes>
 	</Router>
   );

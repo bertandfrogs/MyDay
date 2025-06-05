@@ -12271,13 +12271,31 @@ h1, .h1 {
 .navbar .navbar-toggler-icon {
   filter: invert(1);
 }
+.navbar .account {
+  display: flex;
+  align-items: center;
+}
+.navbar .account .user {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+.navbar .account .user-img {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.navbar .account .user-name {
+  color: white;
+}
 
 .schedule .heading {
   background-color: #afdef9;
   padding: 10px;
   border-radius: 5px;
   position: sticky;
-  top: 30px;
+  top: 55px;
   z-index: 5;
 }
 .schedule .horizontal-week {

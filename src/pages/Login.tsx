@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import FirebaseManager from "../FirebaseManager";
+
 
 function Login() {
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
+  const firebaseManager = new FirebaseManager();
 
   const passwordRegEx = new RegExp(/(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}/);
 
@@ -33,11 +36,16 @@ function Login() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    firebaseManager.signIn();
+  }
+
   return (
     <Container className="login mt-4" style={{ maxWidth: "500px" }}>
       <h1>
         {isCreatingAccount ? "Create Account" : "Login"}
       </h1>
+      <Button className="google-login" onClick={handleGoogleLogin}>Login with Google</Button>
       <Card className="p-4 shadow-sm mt-3">
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           {isCreatingAccount ? (
