@@ -4,7 +4,7 @@ import { useAppData, Appointment } from "../AppDataContext";
 import WeekView from "../components/WeekView";
 import MonthView from "../components/MonthView";
 
-function Schedule() {
+function Calendar() {
   const { setAppointments } = useAppData();
 
   const [weekOffset, setWeekOffset] = useState(0);
@@ -76,7 +76,7 @@ function Schedule() {
   };
 
   return (
-    <Container className="schedule mt-4">
+    <Container className="calendar mt-4">
       <Container className="heading d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex gap-2">
           {viewMode === "week" && (
@@ -193,4 +193,4 @@ function Schedule() {
   );
 }
 
-export default Schedule;
+export default Calendar;

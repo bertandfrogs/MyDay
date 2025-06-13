@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import FirebaseManager from "../FirebaseManager";
+import FirebaseManager from "../managers/FirebaseManager";
 
 
 function Login() {
@@ -37,7 +37,7 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    firebaseManager.signIn();
+    firebaseManager.signInFirebase();
   }
 
   return (

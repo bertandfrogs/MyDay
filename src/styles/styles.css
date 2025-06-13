@@ -12038,7 +12038,7 @@ h1, .h1 {
 }
 
 .homepage {
-  /* Styling for the schedule window */
+  /* Styling for the calendar window */
   /* Styling for Add Goal and Add Task buttons, positioning them below the last item */
 }
 .homepage .layout {
@@ -12066,31 +12066,31 @@ h1, .h1 {
   width: 20px;
   height: 20px;
 }
-.homepage .schedule .card-header {
+.homepage .calendar .card-header {
   background-color: #afdef9;
 }
 .homepage .habits .card-header {
   background-color: #c4f4c7;
 }
-.homepage .schedule {
+.homepage .calendar {
   position: relative; /* So that the add appointment button can be placed absolutely */
   overflow-y: scroll;
   /* Styling for the "Schedule Appointment" button */
 }
-.homepage .schedule .card-header {
+.homepage .calendar .card-header {
   position: relative;
   padding-right: 80px; /* Ensure space for the "Schedule Appointment" button */
 }
-.homepage .schedule .time-slots {
+.homepage .calendar .time-slots {
   display: flex;
   flex-direction: column;
   background-color: #f0f0f0;
   padding: 10px 20px;
   border-radius: 10px;
   position: relative;
-  overflow-y: auto; /* Allow the schedule to scroll */
+  overflow-y: auto; /* Allow the calendar to scroll */
 }
-.homepage .schedule .time-slot {
+.homepage .calendar .time-slot {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -12100,7 +12100,7 @@ h1, .h1 {
   border-bottom: 1px solid #ddd; /* Horizontal lines separating times */
   font-weight: bold;
 }
-.homepage .schedule .appointment-box {
+.homepage .calendar .appointment-box {
   position: absolute;
   left: 70px; /* Ensure it doesn't overlap with the time label */
   padding: 5px;
@@ -12114,13 +12114,13 @@ h1, .h1 {
   width: calc(100% - 80px); /* Make the appointment box take up the full width */
   overflow: hidden; /* Prevent overflow of text */
 }
-.homepage .schedule .appointment-box strong {
+.homepage .calendar .appointment-box strong {
   font-weight: 600;
 }
-.homepage .schedule .bi-calendar-plus {
+.homepage .calendar .bi-calendar-plus {
   margin-right: 8px;
 }
-.homepage .schedule .card-body {
+.homepage .calendar .card-body {
   padding-top: 50px;
   display: flex;
   flex-direction: column;
@@ -12253,8 +12253,15 @@ h1, .h1 {
 .navbar-brand:hover {
   color: #EBE4A4;
 }
+.navbar-brand .myday-logo {
+  height: 50px;
+  width: 50px;
+}
 .navbar .nav-link {
   color: white;
+}
+.navbar .nav-link:hover {
+  color: #EBE4A4;
 }
 .navbar .nav-link.active {
   color: white;
@@ -12264,6 +12271,12 @@ h1, .h1 {
 }
 .navbar .nav-link.brand.active {
   text-decoration: none;
+}
+.navbar .nav-link.show {
+  color: #EBE4A4;
+}
+.navbar .dropdown-menu {
+  background-color: #31393C;
 }
 .navbar .navbar-toggler {
   color: #EBE4A4;
@@ -12289,8 +12302,11 @@ h1, .h1 {
 .navbar .account .user-name {
   color: white;
 }
+.navbar .account button:hover {
+  background-color: #EBE4A4;
+}
 
-.schedule .heading {
+.calendar .heading {
   background-color: #afdef9;
   padding: 10px;
   border-radius: 5px;
@@ -12298,20 +12314,20 @@ h1, .h1 {
   top: 55px;
   z-index: 5;
 }
-.schedule .horizontal-week {
+.calendar .horizontal-week {
   display: flex;
   overflow-x: auto;
   gap: 1rem;
   padding-bottom: 1rem;
   scroll-snap-type: x mandatory;
 }
-.schedule .day-tab {
+.calendar .day-tab {
   cursor: pointer;
   flex: 0 0 auto;
   transition: transform 0.3s ease, flex-basis 0.3s ease;
   scroll-snap-align: start;
 }
-.schedule .bookmark-tab {
+.calendar .bookmark-tab {
   background-color: #f8f9fa;
   border-radius: 10px;
   padding: 1rem;
@@ -12320,7 +12336,7 @@ h1, .h1 {
   min-width: 80px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-.schedule .day-card {
+.calendar .day-card {
   min-width: 250px;
   width: 300px;
   max-height: 400px;

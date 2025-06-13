@@ -1,11 +1,27 @@
 import { useState } from "react";
 import { useAppData } from "../AppDataContext";
-import { Container, Card, ListGroup, Button, Modal, Form } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  ListGroup,
+  Button,
+  Modal,
+  Form,
+} from "react-bootstrap";
 import { WidthProvider, Responsive } from "react-grid-layout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 function Home() {
-  const { appointments, tasks, goals, setAppointments, setTasks, setGoals, habits } = useAppData();
+  const {
+    appointments,
+    tasks,
+    goals,
+    setAppointments,
+    setTasks,
+    setGoals,
+    habits,
+    dataManager
+  } = useAppData();
 
   // Today’s date
   const todayStr = new Date().toISOString().split("T")[0];
@@ -15,7 +31,8 @@ function Home() {
 
   const [showAddAppointmentModal, setShowAddAppointmentModal] = useState(false);
   const [newAppointmentTitle, setNewAppointmentTitle] = useState("");
-  const [newAppointmentStartTime, setNewAppointmentStartTime] = useState("12:00");
+  const [newAppointmentStartTime, setNewAppointmentStartTime] =
+    useState("12:00");
   const [newAppointmentEndTime, setNewAppointmentEndTime] = useState("13:00");
   const [newAppointmentColor, setNewAppointmentColor] = useState("blue");
 
@@ -26,19 +43,23 @@ function Home() {
     .filter((appt) => appt.date === todayStr)
     .sort((a, b) => a.startTime.localeCompare(b.startTime));
   const sortedTasks = tasks
-  .filter((task) => !task.completed)
-  .sort((a, b) => {
-    const aDate = new Date(a.dueDate ?? "9999-12-31");
-    const bDate = new Date(b.dueDate ?? "9999-12-31");
-    return aDate.getTime() - bDate.getTime();
-  });
+    .filter((task) => !task.completed)
+    .sort((a, b) => {
+      const aDate = new Date(a.dueDate ?? "9999-12-31");
+      const bDate = new Date(b.dueDate ?? "9999-12-31");
+      return aDate.getTime() - bDate.getTime();
+    });
+
+  const getTodayEvents = () => {
+    console.log(dataManager.gcManager.listTodayEvents())
+  };
 
   // Modal to add a new task
   const handleAddTask = () => {
     if (!newTaskText.trim()) return;
     setTasks([
       ...tasks,
-      { id: Date.now(), text: newTaskText, completed: false},
+      { id: Date.now(), text: newTaskText, completed: false },
     ]);
     setNewTaskText("");
     setShowAddTaskModal(false);
@@ -110,34 +131,34 @@ function Home() {
 
   const layouts = {
     xl: [
-      { i: "schedule", x: 0, y: 0, w: 5, h: 12, minH: 4, minW: 3 },
+      { i: "calendar", x: 0, y: 0, w: 5, h: 12, minH: 4, minW: 3 },
       { i: "todo", x: 5, y: 0, w: 3, h: 12, minH: 2 },
       { i: "goals", x: 8, y: 0, w: 4, h: 5, minH: 2 },
-			{ i: "habits", x: 8, y: 3, w: 4, h: 7, minH: 2 },
+      { i: "habits", x: 8, y: 3, w: 4, h: 7, minH: 2 },
     ],
     lg: [
-      { i: "schedule", x: 0, y: 0, w: 4, h: 9, minH: 4, minW: 3 },
+      { i: "calendar", x: 0, y: 0, w: 4, h: 9, minH: 4, minW: 3 },
       { i: "todo", x: 4, y: 0, w: 3, h: 9, minH: 4 },
       { i: "goals", x: 7, y: 0, w: 3, h: 4, minH: 4 },
-			{ i: "habits", x: 7, y: 3, w: 3, h: 5, minH: 4 },
+      { i: "habits", x: 7, y: 3, w: 3, h: 5, minH: 4 },
     ],
     md: [
-      { i: "schedule", x: 0, y: 0, w: 4, h: 7, minH: 4, minW: 3 },
+      { i: "calendar", x: 0, y: 0, w: 4, h: 7, minH: 4, minW: 3 },
       { i: "todo", x: 4, y: 0, w: 2, h: 7, minH: 2 },
-			{ i: "habits", x: 0, y: 7, w: 3, h: 4, minH: 4 },
+      { i: "habits", x: 0, y: 7, w: 3, h: 4, minH: 4 },
       { i: "goals", x: 3, y: 7, w: 3, h: 4, minH: 2 },
     ],
     sm: [
-      { i: "schedule", x: 0, y: 0, w: 4, h: 6, minH: 4, minW: 3 },
+      { i: "calendar", x: 0, y: 0, w: 4, h: 6, minH: 4, minW: 3 },
       { i: "todo", x: 0, y: 3, w: 2, h: 5, minH: 2 },
       { i: "goals", x: 2, y: 0, w: 2, h: 5, minH: 2 },
-			{ i: "habits", x: 0, y: 11, w: 2, h: 4, minH: 4 },
+      { i: "habits", x: 0, y: 11, w: 2, h: 4, minH: 4 },
     ],
     xs: [
-      { i: "schedule", x: 0, y: 0, w: 4, h: 7, minH: 4 },
+      { i: "calendar", x: 0, y: 0, w: 4, h: 7, minH: 4 },
       { i: "goals", x: 0, y: 5, w: 2, h: 5, minH: 2 },
       { i: "todo", x: 0, y: 10, w: 2, h: 5, minH: 2 },
-			{ i: "habits", x: 0, y: 15, w: 2, h: 4, minH: 4 },
+      { i: "habits", x: 0, y: 15, w: 2, h: 4, minH: 4 },
     ],
   };
 
@@ -160,8 +181,8 @@ function Home() {
                   className="appointment-box"
                   style={{
                     backgroundColor: `var(--${appt.color})`,
-                    top: `${(hour - 12) - 1}px`,
-                    height: '60px',
+                    top: `${hour - 12 - 1}px`,
+                    height: "60px",
                     //height: `${(parseInt(appt.endTime.split(":")[0]) - parseInt(appt.startTime.split(":")[0])) * 60}px`,
                   }}
                 >
@@ -173,7 +194,6 @@ function Home() {
       </div>
     );
   };
-  
 
   return (
     <Container className="homepage">
@@ -188,20 +208,29 @@ function Home() {
         useCSSTransforms={false}
       >
         {/* Today's Schedule */}
-        <Card key="schedule" className="schedule shadow-sm">
+        <Card key="calendar" className="calendar shadow-sm">
           <Card.Header className="fw-bold drag-handle">
             Today’s Schedule
           </Card.Header>
           <Card.Body>
-          <Button
-              size="sm"
-              variant="outline-dark"
-              onClick={() => setShowAddAppointmentModal(true)}
-              style={{ position: "absolute", right: "10px", top: "50px" }}
-            >
-              <i className="bi bi-calendar-plus me-2"></i>
-              Schedule Appointment
-            </Button>
+            <div className="d-flex">
+              <Button
+                size="sm"
+                variant="outline-dark"
+                onClick={() => getTodayEvents()}
+              >
+                Get Today's Events
+              </Button>
+              <Button
+                size="sm"
+                variant="outline-dark"
+                onClick={() => setShowAddAppointmentModal(true)}
+                // style={{ position: "absolute", right: "10px", top: "50px" }}
+              >
+                <i className="bi bi-calendar-plus me-2"></i>
+                Schedule Appointment
+              </Button>
+            </div>
             {renderTimeSlots()}
           </Card.Body>
         </Card>
@@ -249,9 +278,9 @@ function Home() {
               variant="outline-dark"
               onClick={() => setShowAddGoalModal(true)} // Show the modal for adding a goal
               className="mt-2"
-							style={{width: "fit-content"}}
+              style={{ width: "fit-content" }}
             >
-							<i className="bi bi-plus"></i>
+              <i className="bi bi-plus"></i>
               Add Goal
             </Button>
           </Card.Body>
@@ -289,19 +318,19 @@ function Home() {
               variant="outline-dark"
               onClick={() => setShowAddTaskModal(true)} // Show the modal for adding a task
               className="mt-2"
-							style={{width: "fit-content"}}
+              style={{ width: "fit-content" }}
             >
-							<i className="bi bi-plus"></i>
+              <i className="bi bi-plus"></i>
               Add Task
             </Button>
           </Card.Body>
         </Card>
 
-				{/* Habits */}
+        {/* Habits */}
         <Card key="habits" className="habits shadow-sm">
           <Card.Header className="fw-bold drag-handle">Habits</Card.Header>
           <Card.Body>
-          {habits.length > 0 ? (
+            {habits.length > 0 ? (
               habits.map((habit) => {
                 const checked = habit.log[todayStr] ?? false;
                 return (
@@ -318,10 +347,7 @@ function Home() {
                         {checked && <i className="bi bi-check-lg"></i>}
                         {checked ? "Tracked" : "Track"}
                       </Button>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                      >
+                      <Button variant="outline-danger" size="sm">
                         <i className="bi bi-trash"></i>
                       </Button>
                     </div>
@@ -337,9 +363,9 @@ function Home() {
               size="sm"
               variant="outline-dark"
               className="mt-2"
-							style={{width: "fit-content"}}
+              style={{ width: "fit-content" }}
             >
-							<i className="bi bi-plus"></i>
+              <i className="bi bi-plus"></i>
               Add Habit
             </Button>
           </Card.Body>
@@ -347,7 +373,11 @@ function Home() {
       </ResponsiveReactGridLayout>
 
       {/* Add Goal Modal */}
-      <Modal show={showAddGoalModal} onHide={() => setShowAddGoalModal(false)} centered>
+      <Modal
+        show={showAddGoalModal}
+        onHide={() => setShowAddGoalModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add New Goal</Modal.Title>
         </Modal.Header>
@@ -360,7 +390,10 @@ function Home() {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddGoalModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowAddGoalModal(false)}
+          >
             Cancel
           </Button>
           <Button variant="primary" onClick={handleAddGoal}>
@@ -370,7 +403,11 @@ function Home() {
       </Modal>
 
       {/* Add Task Modal */}
-      <Modal show={showAddTaskModal} onHide={() => setShowAddTaskModal(false)} centered>
+      <Modal
+        show={showAddTaskModal}
+        onHide={() => setShowAddTaskModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add New Task</Modal.Title>
         </Modal.Header>
@@ -383,7 +420,10 @@ function Home() {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddTaskModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowAddTaskModal(false)}
+          >
             Cancel
           </Button>
           <Button variant="primary" onClick={handleAddTask}>
@@ -393,7 +433,11 @@ function Home() {
       </Modal>
 
       {/* Add Appointment Modal */}
-      <Modal show={showAddAppointmentModal} onHide={() => setShowAddAppointmentModal(false)} centered>
+      <Modal
+        show={showAddAppointmentModal}
+        onHide={() => setShowAddAppointmentModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add Appointment for Today</Modal.Title>
         </Modal.Header>
@@ -439,7 +483,10 @@ function Home() {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddAppointmentModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowAddAppointmentModal(false)}
+          >
             Cancel
           </Button>
           <Button variant="primary" onClick={handleAddAppointment}>

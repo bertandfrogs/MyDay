@@ -9,10 +9,18 @@
     &:hover {
       color: $accent-yellow;
     }
+
+    .myday-logo {
+      height: 50px;
+      width: 50px;
+    }
   }
 
   .nav-link {
     color: white;
+    &:hover {
+      color: $accent-yellow;
+    }
     &.active {
       color: white;
       font-weight: 500;
@@ -21,6 +29,13 @@
     &.brand.active {
       text-decoration: none;
     }
+    &.show {
+      color: $accent-yellow;
+    }
+  }
+  
+  .dropdown-menu {
+    background-color: $dark-gray;
   }
 
   .navbar-toggler {
@@ -47,6 +62,12 @@
       }
       &-name {
         color: white;
+      }
+    }
+
+    button {
+      &:hover {
+        background-color: $accent-yellow;
       }
     }
   }

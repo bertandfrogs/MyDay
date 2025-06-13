@@ -1,23 +1,33 @@
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAppData } from "../AppDataContext";
-import { useState } from "react";
 
 function Navigation() {
-  let firebase = useAppData().firebaseManager;
-  let user = firebase.auth.currentUser;
-  let [currentUser, setCurrentUser] = useState(user)
+  const { dataManager, currentUser, setCurrentUser } = useAppData();
+  const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
-    let cred = await firebase.signIn();
-    if (cred) {
-      setCurrentUser(cred.user);
-    }
+    await dataManager
+      .signIn()
+      .then((user) => {
+        if (user) {
+          setCurrentUser(user);
+        }
+      })
+      .then(async () => {
+        await navigate("/dashboard");
+      });
   };
 
-  const handleLogout = async () => {
-    firebase.signOut();
-    setCurrentUser(null);
+  const handleGoogleLogout = async () => {
+    await dataManager
+      .signOut()
+      .then(() => {
+        setCurrentUser(null);
+      })
+      .then(async () => {
+        await navigate("/");
+      });
   };
 
   return (
@@ -25,36 +35,65 @@ function Navigation() {
       <Container>
         <NavLink className="nav-link brand" to="/">
           <Navbar.Brand>
+            {/* <svg className="myday-logo" href="../assets/MyDay.svg"></svg> */}
             <i className="bi bi-pencil-square pe-3"></i>
             MyDay
           </Navbar.Brand>
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <NavLink className="nav-link" to="/">
-              Home
-            </NavLink>
-            <NavLink className="nav-link" to="/schedule">
-              Schedule
-            </NavLink>
-            <NavLink className="nav-link" to="/habits">
-              Habits
-            </NavLink>
-            <NavLink className="nav-link" to="/todo">
-              To-Do
-            </NavLink>
-          </Nav>
+          {currentUser ? (
+            <Nav className="ms-auto">
+              <NavLink className="nav-link" to="/dashboard">
+                Dashboard
+              </NavLink>
+              <NavLink className="nav-link" to="/calendar">
+                Calendar
+              </NavLink>
+              <NavLink className="nav-link" to="/habits">
+                Habits
+              </NavLink>
+              <NavLink className="nav-link" to="/todo">
+                To-Do
+              </NavLink>
+              <NavDropdown className="ms-3" title={<i className="bi bi-question-circle"></i>}>
+                <NavLink className="nav-link" to="/about">
+                  About
+                </NavLink>
+                <NavLink className="nav-link" to="/privacy">
+                  Privacy
+                </NavLink>
+                <NavLink className="nav-link" to="/contact">
+                  Contact
+                </NavLink>
+              </NavDropdown>
+            </Nav>
+          ) : (
+            <Nav className="ms-auto">
+              <NavLink className="nav-link" to="/">
+                Home
+              </NavLink>
+              <NavLink className="nav-link" to="/about">
+                About
+              </NavLink>
+              <NavLink className="nav-link" to="/privacy">
+                Privacy
+              </NavLink>
+              <NavLink className="nav-link" to="/contact">
+                Contact
+              </NavLink>
+            </Nav>
+          )}
           <Nav className="ms-auto">
             {currentUser ? (
               <div className="account">
                 <div className="user">
-                  {currentUser.photoURL && (
-                    <img className="user-img" src={currentUser.photoURL}></img>
+                  {currentUser && currentUser.photoURL && (
+                    <img className="user-img" src={currentUser.photoURL} referrerPolicy="no-referrer"></img>
                   )}
                   <div className="user-name">{currentUser.displayName}</div>
                 </div>
-                <Button className="bg-accent" onClick={handleLogout}>
+                <Button className="bg-accent" onClick={handleGoogleLogout}>
                   Logout
                 </Button>
               </div>

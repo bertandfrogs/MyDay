@@ -28,7 +28,7 @@
     }
   }
 
-  .schedule {
+  .calendar {
     .card-header {
       background-color: $accent-light-blue;
     }
@@ -40,8 +40,8 @@
     }
   }
 
-  /* Styling for the schedule window */
-  .schedule {
+  /* Styling for the calendar window */
+  .calendar {
     position: relative; /* So that the add appointment button can be placed absolutely */
     overflow-y: scroll;
     .card-header {
@@ -56,8 +56,8 @@
       padding: 10px 20px;
       border-radius: 10px;
       position: relative;
-      //height: 400px; /* Set a fixed height for the schedule */
-      overflow-y: auto; /* Allow the schedule to scroll */
+      //height: 400px; /* Set a fixed height for the calendar */
+      overflow-y: auto; /* Allow the calendar to scroll */
     }
 
     .time-slot {

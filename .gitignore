@@ -21,5 +21,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# firebase secrets
+# application secrets
 firebase.config.ts
+google.config.ts
