@@ -3,70 +3,86 @@ import { createContext, useContext, useState, ReactNode, useEffect } from "react
 import { User } from "firebase/auth";
 import DataManager from "./managers/DataManager";
 
-export const gcColors = {
-  1: {
+type colorData = {
+  name: string,
+  hex: string,
+}
+
+export const gcColors: Map<string, colorData> = new Map([
+  ["1", {
     name: "Lavender",
-    hex: "#A4BDFC",
-  },
+    hex: "#A4BDFC"
+  }],
 
-  2: {
+  ["2", {
     name: "Sage",
-    hex: "#7AE7BF",
-  },
+    hex: "#7AE7BF"
+  }],
 
-  3: {
+  ["3", {
     name: "Grape",
-    hex: "#DBADFF",
-  },
+    hex: "#DBADFF"
+  }],
 
-  4: {
+  ["4", {
     name: "Flamingo",
-    hex: "#FF887C",
-  },
+    hex: "#FF887C"
+  }],
 
-  5: {
+  ["5", {
     name: "Banana",
-    hex: "#FBD75B",
-  },
+    hex: "#FBD75B"
+  }],
 
-  6: {
+  ["6", {
     name: "Tangerine",
-    hex: "#FFB878",
-  },
+    hex: "#FFB878"
+  }],
 
-  7: {
+  ["7", {
     name: "Peacock",
-    hex: "#46D6DB",
-  },
+    hex: "#46D6DB"
+  }],
 
-  8: {
+  ["8", {
     name: "Graphite",
-    hex: "#E1E1E1",
-  },
+    hex: "#E1E1E1"
+  }],
 
-  9: {
+  ["9", {
     name: "Blueberry",
-    hex: "#5484ED",
-  },
+    hex: "#5484ED"
+  }],
 
-  10: {
+  ["10", {
     name: "Basil",
-    hex: "#51B749",
-  },
+    hex: "#51B749"
+  }],
 
-  11: {
+  ["11", {
     name: "Tomato",
-    hex: "#DC2127",
-  },
-};
+    hex: "#DC2127"
+  }]
+]);
 
 export interface Appointment {
-  id: number;
+  id: string;
   title: string;
-  startTime: string; // e.g., "13:00"
-  endTime: string; // e.g., "14:30"
-  date: string; // YYYY-MM-DD
-  color: string; // e.g., "blue", "red", etc.
+  location: string | undefined;
+  startTime: string | undefined; // e.g., "13:00"
+  endTime: string | undefined; // e.g., "14:30"
+  color: string | undefined;
+}
+
+export function convertGCtoAppointment(event: gapi.client.calendar.Event): Appointment {
+  return {
+    id: event.id,
+    title: event.summary,
+    location: event.location,
+    startTime: event.start.dateTime,
+    endTime: event.end.dateTime,
+    color: event.colorId
+  }
 }
 
 export interface Task {
@@ -93,6 +109,8 @@ export interface Habit {
 interface AppDataContextType {
   appointments: Appointment[];
   setAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
+  todayAppointments: Appointment[] | undefined;
+  setTodayAppointments: React.Dispatch<React.SetStateAction<Appointment[] | undefined>>;
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   goals: Goal[];
@@ -128,6 +146,7 @@ export function AppDataProvider(props: appDataProviderProps) {
   const [currentUser, setCurrentUser] = useState(
     dataManager.getCurrentUser()
   );
+  const [todayAppointments, setTodayAppointments] = useState<Appointment[] | undefined>();
 
   function onAuthStateChange(setUser: React.Dispatch<React.SetStateAction<User | null>>) {
     return dataManager.firebaseManager.auth.onAuthStateChanged((user) => {
@@ -155,7 +174,9 @@ export function AppDataProvider(props: appDataProviderProps) {
         setHabits,
         currentUser,
         setCurrentUser,
-        dataManager
+        dataManager,
+        todayAppointments,
+        setTodayAppointments
       }}
     >
       {props.children}

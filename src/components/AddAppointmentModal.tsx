@@ -1,8 +1,6 @@
-import { useAppData } from "../AppDataContext";
+import { gcColors, useAppData } from "../AppDataContext";
 import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-
-const COLORS = ["blue", "yellow", "red", "orange", "purple", "green", "pink"];
 
 export default function AddAppointmentModal({ show, onClose }: { show: boolean; onClose: () => void }) {
   const { setAppointments } = useAppData();
@@ -11,18 +9,25 @@ export default function AddAppointmentModal({ show, onClose }: { show: boolean; 
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [startTime, setStartTime] = useState("12:00");
   const [endTime, setEndTime] = useState("13:00");
-  const [color, setColor] = useState("blue");
+  const [color, setColor] = useState("1");
+  const [location, setLocation] = useState();
+
+  let colorData: {name: string, hex: string, id: string}[] = [];
+  gcColors.forEach((color, key) => {
+    colorData.push({name: color.name, hex: color.hex, id: key})
+  })
 
   const handleAdd = () => {
     if (!title.trim()) return;
     setAppointments(prev => [
       ...prev,
       {
-        id: Date.now(),
+        id: Date.now().toString(),
         title,
         date,
         startTime,
         endTime,
+        location,
         color,
       },
     ]);
@@ -55,8 +60,8 @@ export default function AddAppointmentModal({ show, onClose }: { show: boolean; 
           <Form.Group>
             <Form.Label>Color</Form.Label>
             <Form.Select value={color} onChange={(e) => setColor(e.target.value)}>
-              {COLORS.map(c => (
-                <option key={c} value={c}>{c}</option>
+              {colorData.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
               ))}
             </Form.Select>
           </Form.Group>

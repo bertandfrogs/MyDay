@@ -16,7 +16,7 @@ export default class CookieManager {
   storeAccessCookie(token: string | undefined) {
     if (token) {
       this.access_token = token;
-      setCookie(accessCookie, this.access_token);
+      setCookie(accessCookie, this.access_token, {expires: 0.0416667});
     }
   }
 

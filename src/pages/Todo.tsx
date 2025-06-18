@@ -1,4 +1,4 @@
-import { useAppData } from "../AppDataContext";
+import { Task, useAppData } from "../AppDataContext";
 import { useState } from "react";
 import {
   Container,
@@ -10,16 +10,8 @@ import {
   Card,
 } from "react-bootstrap";
 
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-  dueDate?: string;
-  priority?: number; // 1 = High, 2 = Medium, 3 = Low
-}
-
 function Todo() {
-  const { tasks, setTasks } = useAppData();
+  const { tasks, setTasks, dataManager } = useAppData();
   const [newTask, setNewTask] = useState("");
   const [newDueDate, setNewDueDate] = useState<string | undefined>();
   const [newPriority, setNewPriority] = useState<number>(2); // Default = Medium

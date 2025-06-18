@@ -11984,6 +11984,74 @@ h1, .h1 {
   color: #896405;
 }
 
+.gc-modern-bg-1 {
+  background-color: #7986CB;
+}
+.gc-modern-bg-2 {
+  background-color: #33B679;
+}
+.gc-modern-bg-3 {
+  background-color: #8E24AA;
+}
+.gc-modern-bg-4 {
+  background-color: #E67C73;
+}
+.gc-modern-bg-5 {
+  background-color: #F6BF26;
+}
+.gc-modern-bg-6 {
+  background-color: #F4511E;
+}
+.gc-modern-bg-7 {
+  background-color: #039BE5;
+}
+.gc-modern-bg-8 {
+  background-color: #616161;
+}
+.gc-modern-bg-9 {
+  background-color: #3F51B5;
+}
+.gc-modern-bg-10 {
+  background-color: #0B8043;
+}
+.gc-modern-bg-11 {
+  background-color: #D50000;
+}
+
+.gc-modern-color-1 {
+  color: #7986CB;
+}
+.gc-modern-color-2 {
+  color: #33B679;
+}
+.gc-modern-color-3 {
+  color: #8E24AA;
+}
+.gc-modern-color-4 {
+  color: #E67C73;
+}
+.gc-modern-color-5 {
+  color: #F6BF26;
+}
+.gc-modern-color-6 {
+  color: #F4511E;
+}
+.gc-modern-color-7 {
+  color: #039BE5;
+}
+.gc-modern-color-8 {
+  color: #616161;
+}
+.gc-modern-color-9 {
+  color: #3F51B5;
+}
+.gc-modern-color-10 {
+  color: #0B8043;
+}
+.gc-modern-color-11 {
+  color: #D50000;
+}
+
 .event-detail-popup {
   position: absolute;
   background-color: #fff;
@@ -12073,13 +12141,8 @@ h1, .h1 {
   background-color: #c4f4c7;
 }
 .homepage .calendar {
-  position: relative; /* So that the add appointment button can be placed absolutely */
   overflow-y: scroll;
   /* Styling for the "Schedule Appointment" button */
-}
-.homepage .calendar .card-header {
-  position: relative;
-  padding-right: 80px; /* Ensure space for the "Schedule Appointment" button */
 }
 .homepage .calendar .time-slots {
   display: flex;
@@ -12092,36 +12155,70 @@ h1, .h1 {
 }
 .homepage .calendar .time-slot {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  height: 60px; /* Fixed height for each hourly slot */
-  position: relative;
-  padding-left: 10px;
-  border-bottom: 1px solid #ddd; /* Horizontal lines separating times */
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 75px;
+  border-bottom: 1px solid #ddd; /* Horizontal lines between times */
+}
+.homepage .calendar .time-slot:nth-last-of-type(1) {
+  border-bottom: none;
+}
+.homepage .calendar .time-slot-label {
   font-weight: bold;
 }
 .homepage .calendar .appointment-box {
-  position: absolute;
-  left: 70px; /* Ensure it doesn't overlap with the time label */
-  padding: 5px;
+  padding: 15px;
   border-radius: 5px;
+  width: 75%;
   color: white;
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: calc(100% - 80px); /* Make the appointment box take up the full width */
-  overflow: hidden; /* Prevent overflow of text */
+  min-height: 50px;
+  word-wrap: normal;
 }
-.homepage .calendar .appointment-box strong {
-  font-weight: 600;
+.homepage .calendar .appointment-box.event-color-1 {
+  background-color: #7986CB;
+}
+.homepage .calendar .appointment-box.event-color-2 {
+  background-color: #33B679;
+}
+.homepage .calendar .appointment-box.event-color-3 {
+  background-color: #8E24AA;
+}
+.homepage .calendar .appointment-box.event-color-4 {
+  background-color: #E67C73;
+}
+.homepage .calendar .appointment-box.event-color-5 {
+  background-color: #F6BF26;
+}
+.homepage .calendar .appointment-box.event-color-6 {
+  background-color: #F4511E;
+}
+.homepage .calendar .appointment-box.event-color-7 {
+  background-color: #039BE5;
+}
+.homepage .calendar .appointment-box.event-color-8 {
+  background-color: #616161;
+}
+.homepage .calendar .appointment-box.event-color-9 {
+  background-color: #3F51B5;
+}
+.homepage .calendar .appointment-box.event-color-10 {
+  background-color: #0B8043;
+}
+.homepage .calendar .appointment-box.event-color-11 {
+  background-color: #D50000;
 }
 .homepage .calendar .bi-calendar-plus {
   margin-right: 8px;
 }
 .homepage .calendar .card-body {
-  padding-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -12377,60 +12474,43 @@ h1, .h1 {
   background-color: rgba(197, 159, 201, 0.2);
 }
 
-:root {
-  --blue: #007bff;
-  --yellow: #ffc107;
-  --red: #dc3545;
-  --orange: #fd7e14;
-  --purple: #6f42c1;
-  --green: #28a745;
-  --pink: #e83e8c;
-}
-
 .calendar-week-view {
   display: flex;
   flex-direction: row;
   height: 100%;
 }
-
-.hour-labels {
+.calendar-week-view .hour-labels {
   width: 80px;
   text-align: right;
   padding-right: 0.5rem;
   font-size: 0.85rem;
 }
-
-.hour {
+.calendar-week-view .hour {
   height: 60px;
   border-bottom: 1px solid #ddd;
   line-height: 60px;
 }
-
-.week-columns {
+.calendar-week-view .week-columns {
   display: flex;
   flex: 1;
 }
-
-.day-column {
+.calendar-week-view .day-column {
   flex: 1;
   border-left: 1px solid #ddd;
   position: relative;
 }
-
-.day-label {
+.calendar-week-view .day-label {
   padding: 0.5rem;
   font-weight: bold;
   text-align: center;
   background: #f8f9fa;
   border-bottom: 1px solid #ddd;
 }
-
-.day-slots {
+.calendar-week-view .day-slots {
   position: relative;
   height: 840px;
 }
-
-.appointment-box {
+.calendar-week-view .appointment-box {
   position: absolute;
   left: 10px;
   right: 10px;

@@ -42,12 +42,7 @@
 
   /* Styling for the calendar window */
   .calendar {
-    position: relative; /* So that the add appointment button can be placed absolutely */
     overflow-y: scroll;
-    .card-header {
-      position: relative;
-      padding-right: 80px; /* Ensure space for the "Schedule Appointment" button */
-    }
 
     .time-slots {
       display: flex;
@@ -62,34 +57,69 @@
 
     .time-slot {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
-      height: 60px; /* Fixed height for each hourly slot */
-      position: relative;
-      padding-left: 10px;
-      border-bottom: 1px solid #ddd; /* Horizontal lines separating times */
-      font-weight: bold;
+      height: fit-content;
+      min-height: 75px;
+      border-bottom: 1px solid #ddd; /* Horizontal lines between times */
+      &:nth-last-of-type(1) {
+        border-bottom: none;
+      }
+
+      &-label {
+        font-weight: bold;
+      }
     }
 
     .appointment-box {
-      position: absolute;
-      left: 70px; /* Ensure it doesn't overlap with the time label */
-      padding: 5px;
+      padding: 15px;
       border-radius: 5px;
+      width: 75%;
       color: white;
-      font-size: 0.9rem;
+      font-size: 1rem;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
       text-align: center;
-      width: calc(
-        100% - 80px
-      ); /* Make the appointment box take up the full width */
-      overflow: hidden; /* Prevent overflow of text */
-    }
-
-    .appointment-box strong {
-      font-weight: 600;
+      min-height: 50px;
+      word-wrap: normal;
+                  
+      &.event-color {
+        &-1{
+          background-color: $gc-modern-1;
+        }
+        &-2{
+          background-color: $gc-modern-2;
+        }
+        &-3{
+          background-color: $gc-modern-3;
+        }
+        &-4{
+          background-color: $gc-modern-4;
+        }
+        &-5{
+          background-color: $gc-modern-5;
+        }
+        &-6{
+          background-color: $gc-modern-6;
+        }
+        &-7{
+          background-color: $gc-modern-7;
+        }
+        &-8{
+          background-color: $gc-modern-8;
+        }
+        &-9{
+          background-color: $gc-modern-9;
+        }
+        &-10{
+          background-color: $gc-modern-10;
+        }
+        &-11{
+          background-color: $gc-modern-11;
+        }
+      }
     }
 
     /* Styling for the "Schedule Appointment" button */
@@ -98,7 +128,6 @@
     }
 
     .card-body {
-      padding-top: 50px;
       display: flex;
       flex-direction: column;
       gap: 15px;

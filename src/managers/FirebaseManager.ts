@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
+import { getFirestore, doc, setDoc, Timestamp, getDoc } from "firebase/firestore";
 
 class FirebaseManager {
   firebase;
@@ -21,16 +21,6 @@ class FirebaseManager {
     this.provider.addScope(googleApiScope);
     this.database = getFirestore(this.firebase);
     this.auth = getAuth();
-  }
-
-  onAuthStateChange() {
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("user is signed in")
-      } else {
-        console.log("user is not signed in")
-      }
-    });
   }
 
   async signInFirebase() {
@@ -48,6 +38,9 @@ class FirebaseManager {
         last_login: Timestamp.fromDate(new Date()),
       });
 
+      // store user's access_token in firestore
+      await this.storeToken(access_token);
+      
       return {
         user,
         access_token
@@ -70,6 +63,24 @@ class FirebaseManager {
 
   getCurrentUser() {
     return this.auth.currentUser;
+  }
+
+  async storeToken(access_token: string | undefined) {
+    const uid = this.getCurrentUser()?.uid;
+    if (uid && access_token) {
+      return await setDoc(doc(this.database, "auth", uid), {
+        access_token: access_token,
+        date: Timestamp.fromDate(new Date())
+      })
+    }
+  }
+
+  async getToken() {
+    const uid = this.getCurrentUser()?.uid;
+    if (uid) {
+      const res = await getDoc(doc(this.database, "auth", uid));
+      return res.get("access_token");
+    }
   }
 }
 

@@ -1,43 +1,32 @@
-:root {
-    --blue: #007bff;
-    --yellow: #ffc107;
-    --red: #dc3545;
-    --orange: #fd7e14;
-    --purple: #6f42c1;
-    --green: #28a745;
-    --pink: #e83e8c;
-  }
-  
-  .calendar-week-view {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-  }
-  
+.calendar-week-view {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
   .hour-labels {
     width: 80px;
     text-align: right;
     padding-right: 0.5rem;
     font-size: 0.85rem;
   }
-  
+
   .hour {
     height: 60px;
     border-bottom: 1px solid #ddd;
     line-height: 60px;
   }
-  
+
   .week-columns {
     display: flex;
     flex: 1;
   }
-  
+
   .day-column {
     flex: 1;
     border-left: 1px solid #ddd;
     position: relative;
   }
-  
+
   .day-label {
     padding: 0.5rem;
     font-weight: bold;
@@ -45,12 +34,12 @@
     background: #f8f9fa;
     border-bottom: 1px solid #ddd;
   }
-  
+
   .day-slots {
     position: relative;
     height: calc(14 * 60px); // From 7AM–9PM
   }
-  
+
   .appointment-box {
     position: absolute;
     left: 10px;
@@ -61,4 +50,4 @@
     font-size: 0.75rem;
     z-index: 2;
   }
-  
+}

@@ -22,6 +22,7 @@ class GoogleCalendarManager {
     ],
   };
   access_token: string | undefined;
+  refresh_token: string | undefined;
 
   constructor(access_token: string | undefined) {
     try {
@@ -101,9 +102,9 @@ class GoogleCalendarManager {
    * @param {string} calendarId to see by default use the calendar attribute
    * @returns {any}
    */
-  public listTodayEvents(
+  public async listTodayEvents(
     calendarId: string = this.calendar
-  ): gapi.client.calendar.Event[] | undefined {
+  ): Promise<gapi.client.calendar.Event[]> {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Start of today
 
@@ -116,7 +117,7 @@ class GoogleCalendarManager {
     const timeMax = tomorrow.toISOString();
 
     if (gapi) {
-      gapi.client.calendar.events.list({
+      return await gapi.client.calendar.events.list({
         calendarId: calendarId,
         timeMin: timeMin,
         timeMax: timeMax,

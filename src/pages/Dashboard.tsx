@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useAppData } from "../AppDataContext";
+import {
+  convertGCtoAppointment,
+  gcColors,
+  useAppData,
+} from "../AppDataContext";
 import {
   Container,
   Card,
@@ -11,16 +15,17 @@ import {
 import { WidthProvider, Responsive } from "react-grid-layout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-function Home() {
+function Dashboard() {
   const {
-    appointments,
+    todayAppointments,
     tasks,
     goals,
-    setAppointments,
+    setTodayAppointments,
     setTasks,
     setGoals,
     habits,
-    dataManager
+    dataManager,
+    currentUser
   } = useAppData();
 
   // Today’s date
@@ -39,9 +44,11 @@ function Home() {
   const [showAddGoalModal, setShowAddGoalModal] = useState(false); // Modal state for adding goals
   const [newGoal, setNewGoal] = useState("");
 
-  const todayAppointments = appointments
-    .filter((appt) => appt.date === todayStr)
-    .sort((a, b) => a.startTime.localeCompare(b.startTime));
+  let colorData: {name: string, hex: string, id: string}[] = [];
+  gcColors.forEach((color, key) => {
+    colorData.push({name: color.name, hex: color.hex, id: key})
+  })
+
   const sortedTasks = tasks
     .filter((task) => !task.completed)
     .sort((a, b) => {
@@ -50,8 +57,8 @@ function Home() {
       return aDate.getTime() - bDate.getTime();
     });
 
-  const getTodayEvents = () => {
-    console.log(dataManager.gcManager.listTodayEvents())
+  const getTodayEvents = async () => {
+    return await dataManager.getTodayEvents();
   };
 
   // Modal to add a new task
@@ -67,18 +74,18 @@ function Home() {
 
   // Modal to add a new appointment
   const handleAddAppointment = () => {
-    if (!newAppointmentTitle.trim()) return;
-    setAppointments([
-      ...appointments,
-      {
-        id: Date.now(),
-        title: newAppointmentTitle,
-        date: todayStr,
-        startTime: newAppointmentStartTime,
-        endTime: newAppointmentEndTime,
-        color: newAppointmentColor,
-      },
-    ]);
+    // if (!newAppointmentTitle.trim()) return;
+    // setAppointments([
+    //   ...appointments,
+    //   {
+    //     id: Date.now(),
+    //     title: newAppointmentTitle,
+    //     date: todayStr,
+    //     startTime: newAppointmentStartTime,
+    //     endTime: newAppointmentEndTime,
+    //     color: newAppointmentColor,
+    //   },
+    // ]);
     setShowAddAppointmentModal(false);
   };
 
@@ -162,35 +169,48 @@ function Home() {
     ],
   };
 
+  const formatTimeStr = (start: string | undefined, end: string | undefined) => {
+    if (!start || !end) {
+      return "All day";
+    }
+    // start
+    const startDate = new Date(start);
+    const startHours24 = startDate.getHours();
+    const startHours = (startHours24 == 0 || startHours24 == 12) ? 12 : startHours24 % 12;
+    const startMins = startDate.getMinutes();
+    const startMinsStr = (startMins < 10 ? `0${startMins}` : `${startMins}`);
+    const startAmPm = (startHours24 < 12) ? "am" : "pm";
+
+    // end
+    const endDate = new Date(end);
+    const endHours24 = endDate.getHours();
+    const endHours = (endHours24 == 0 || endHours24 == 12) ? 12 : endHours24 % 12;
+    const endMins = endDate.getMinutes();
+    const endMinsStr = (endMins < 10 ? `0${endMins}` : `${endMins}`);
+    const endAmPm = (endHours24 < 12) ? "am" : "pm";
+    return `${startHours}:${startMinsStr} ${startAmPm == endAmPm ? "" : startAmPm} - ${endHours}:${endMinsStr} ${endAmPm}`;
+  }
+
   const renderTimeSlots = () => {
-    const hours = Array.from({ length: 12 }, (_, i) => 8 + i); // Creates hours from 8AM to 8PM
     return (
       <div className="time-slots">
-        {hours.map((hour) => (
-          <div key={hour} className="time-slot">
-            <span>{`${hour}:00`}</span>
-            {todayAppointments
-              .filter((appt) => {
-                const apptStart = parseInt(appt.startTime.split(":")[0]);
-                const apptEnd = parseInt(appt.endTime.split(":")[0]);
-                return apptStart <= hour && apptEnd > hour;
-              })
-              .map((appt) => (
-                <div
-                  key={appt.id}
-                  className="appointment-box"
-                  style={{
-                    backgroundColor: `var(--${appt.color})`,
-                    top: `${hour - 12 - 1}px`,
-                    height: "60px",
-                    //height: `${(parseInt(appt.endTime.split(":")[0]) - parseInt(appt.startTime.split(":")[0])) * 60}px`,
-                  }}
-                >
-                  <strong>{appt.title}</strong>
-                </div>
-              ))}
+        {todayAppointments && todayAppointments.length > 0 ? todayAppointments.map((appt) => (
+          <div className="time-slot">
+            <div className="time-slot-label">{formatTimeStr(appt.startTime, appt.endTime)}</div>
+            <div
+              key={appt.id}
+              className={`appointment-box event-color-${
+                appt.color ? appt.color : 1
+              }`}
+            >
+              <div>{appt.title}</div>
+            </div>
           </div>
-        ))}
+        )) : (
+          <div className="time-slot">
+            <div className="">Nothing scheduled for today</div>
+          </div>
+        )}
       </div>
     );
   };
@@ -210,28 +230,29 @@ function Home() {
         {/* Today's Schedule */}
         <Card key="calendar" className="calendar shadow-sm">
           <Card.Header className="fw-bold drag-handle">
-            Today’s Schedule
+            Today's Schedule
           </Card.Header>
           <Card.Body>
             <div className="d-flex">
               <Button
                 size="sm"
                 variant="outline-dark"
-                onClick={() => getTodayEvents()}
+                onClick={async () => {
+                  setTodayAppointments(await getTodayEvents());
+                }}
               >
-                Get Today's Events
+                <i className="bi bi-arrow-clockwise"></i>
               </Button>
               <Button
                 size="sm"
                 variant="outline-dark"
                 onClick={() => setShowAddAppointmentModal(true)}
-                // style={{ position: "absolute", right: "10px", top: "50px" }}
               >
                 <i className="bi bi-calendar-plus me-2"></i>
-                Schedule Appointment
+                Schedule Event
               </Button>
             </div>
-            {renderTimeSlots()}
+            {currentUser && (renderTimeSlots())}
           </Card.Body>
         </Card>
 
@@ -439,7 +460,7 @@ function Home() {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Appointment for Today</Modal.Title>
+          <Modal.Title>Add Event for Today</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3">
@@ -469,16 +490,15 @@ function Home() {
           <Form.Group className="mb-3">
             <Form.Label>Color</Form.Label>
             <Form.Select
+              className={`gc-modern-color-${newAppointmentColor}`}
               value={newAppointmentColor}
               onChange={(e) => setNewAppointmentColor(e.target.value)}
             >
-              <option value="blue">Blue</option>
-              <option value="yellow">Yellow</option>
-              <option value="red">Red</option>
-              <option value="orange">Orange</option>
-              <option value="purple">Purple</option>
-              <option value="green">Green</option>
-              <option value="pink">Pink</option>
+              {colorData.map(c => (
+                <option className={`gc-modern-color-${c.id}`}key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
         </Modal.Body>
@@ -498,4 +518,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dashboard;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container, Button, Modal, Form, Dropdown } from "react-bootstrap";
-import { useAppData, Appointment } from "../AppDataContext";
+import { useAppData, Appointment, gcColors } from "../AppDataContext";
 import WeekView from "../components/WeekView";
 import MonthView from "../components/MonthView";
 
@@ -17,7 +17,13 @@ function Calendar() {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [startTime, setStartTime] = useState("12:00");
   const [endTime, setEndTime] = useState("13:00");
-  const [color, setColor] = useState("blue");
+  const [color, setColor] = useState("1");
+  const [location, setLocation] = useState<string | undefined>();
+
+  let colorData: {name: string, hex: string, id: string}[] = [];
+  gcColors.forEach((color, key) => {
+    colorData.push({name: color.name, hex: color.hex, id: key})
+  })
 
   const openCreateModal = () => {
     setEditingAppointment(null);
@@ -28,10 +34,18 @@ function Calendar() {
   const openEditModal = (appt: Appointment) => {
     setEditingAppointment(appt);
     setTitle(appt.title);
-    setDate(appt.date);
-    setStartTime(appt.startTime);
-    setEndTime(appt.endTime);
-    setColor(appt.color);
+    if (appt.startTime) {
+      setStartTime(appt.startTime);
+    }
+    if (appt.endTime) {
+      setEndTime(appt.endTime);
+    }
+    if (appt.color) {
+      setColor(appt.color);
+    }
+    if (appt.location){
+      setLocation(appt.location);
+    }
     setShowModal(true);
   };
 
@@ -60,12 +74,12 @@ function Calendar() {
       setAppointments(prev => [
         ...prev,
         {
-          id: Date.now(),
+          id: Date.now().toString(),
           title,
-          date,
           startTime,
           endTime,
           color,
+          location
         },
       ]);
     }
@@ -169,13 +183,9 @@ function Calendar() {
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
               >
-                <option value="blue">Blue</option>
-                <option value="yellow">Yellow</option>
-                <option value="red">Red</option>
-                <option value="orange">Orange</option>
-                <option value="purple">Purple</option>
-                <option value="green">Green</option>
-                <option value="pink">Pink</option>
+                {colorData.map(c => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
               </Form.Select>
             </Form.Group>
           </Form>

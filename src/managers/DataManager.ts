@@ -4,6 +4,7 @@
 import GoogleCalendarManager from "./GoogleCalendarManager";
 import CookieManager from "./CookieManager";
 import FirebaseManager from "./FirebaseManager";
+import { convertGCtoAppointment } from "../AppDataContext";
 
 export default class DataManager {
   firebaseManager: FirebaseManager;
@@ -37,8 +38,9 @@ export default class DataManager {
     return this.firebaseManager.getCurrentUser();
   }
 
-  getTodayEvents() {
-    const events = this.gcManager.listTodayEvents();
-    
+  async getTodayEvents() {
+    const events = await this.gcManager.listTodayEvents();
+    const appts = events.map((event) => convertGCtoAppointment(event));
+    return appts;
   }
 }
